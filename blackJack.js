@@ -84,7 +84,7 @@ function start() {
     }
     if (playerScore === 21 && dealerScore === 21) {
         openHand();
-        setTimeout(()=>alert("PUSH"),1000);
+        setTimeout(()=>alert("PUSH (double BlackJack)"),1000);
     } else if (playerScore === 21) {
         openHand();
         setTimeout(()=>alert("BlackJack!! you Win!"),1000);
@@ -103,7 +103,7 @@ function hit() {
     giveCard(); // 플레이어에게 한장
     if (playerScore > 21) {
         openHand();
-        setTimeout(() => alert("Burst..! You loose"),1000);
+        setTimeout(() => alert("Burst..! You lose"),1000);
         return;
     }
     if (dealerScore <= 16) { // Dealer hit 규칙에 의해 16이하면 무조건 hit
@@ -128,7 +128,7 @@ function gameResult() {
         setTimeout(()=>alert("Draw"),1000);
     }
     else {
-        setTimeout(()=>alert("you loose"),1000);
+        setTimeout(()=>alert("you lose"),1000);
     }
     resetButton.disabled = false;
 };
@@ -138,13 +138,10 @@ function stay() {//count = 짝수
     while (dealerScore <= 16) {
         giveCard(); //count = 짝수
         count++}
-        if (dealerScore === 21) {
-            openHand();
-            setTimeout(()=>alert("Dealer Blackjack you loose.."),1000);
-        } else if (dealerScore > 21) {
+        if (dealerScore > 21) {
             openHand();
             setTimeout(()=>alert("Dealer burst You win!"),1000);
-        } else if (dealerScore > 16 && dealerScore < 21){
+        } else if (dealerScore > 16 && dealerScore <= 21){
         gameResult();
     }
 };
