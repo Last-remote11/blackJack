@@ -39,6 +39,15 @@ function resetCard() {
     } return cards;
 }
 
+function openHand() {
+    playerHandDOM.innerHTML = playerHand;
+    playerScoreDOM.innerHTML = playerScore;
+    dealerHandDOM.innerHTML = dealerHand;
+    dealerScoreDOM.innerHTML = dealerScore;
+    resetButton.disabled=false;
+    hitButton.disabled=true;
+    stayButton.disabled=true;
+};
 
 function calCardNum(card) { //card = 길이 2 문자열 "s8"
     let Num = 0;
@@ -49,7 +58,7 @@ function calCardNum(card) { //card = 길이 2 문자열 "s8"
         if (cardNumASC < 58) {Num = Number(card[1])
         } else {cardNumASC === 65 ? Num = 11 : Num = 10}
     }
-    return Num;}
+    return Num;};
 
 
 function giveCard() { //플레이어 먼저 주고 돌아가면서 줌
@@ -66,64 +75,54 @@ function giveCard() { //플레이어 먼저 주고 돌아가면서 줌
     }
     cardSet.splice(randomCardIndex, 1);
     count++;
-}
+};
 
 function start() {
     cardSet = resetCard();
     for (var i=0; i < 4; i++) {
     giveCard() // 2장씩 나눠줌
     }
-    if (playerScore === 21) {
-        alert("BlackJack!! you Win!")
+    if (playerScore === 21 && dealerScore === 21) {
+        openHand();
+        setTimeout(()=>alert("PUSH"),1000);
+    } else if (playerScore === 21) {
+        openHand();
+        setTimeout(()=>alert("BlackJack!! you Win!"),1000);
     } else if (dealerScore === 21) {
-        alert("Oh no... dealer BlackJack")
-    } else {
+        openHand();
+        setTimeout(()=>alert("Oh no... dealer BlackJack"),1000);
+    } 
+    else {
         startButton.disabled = true;
         hitButton.disabled = false;
         stayButton.disabled = false;
     }
-}
+};
 
 function hit() {
     giveCard();
     count++
     if (playerScore > 21) {
-        dealerHandDOM.innerHTML = dealerHand;
-        dealerScoreDOM.innerHTML = dealerScore;
-        alert("Burst..! You loose");
-        resetButton.disabled=false;
-        hitButton.disabled=true;
-        stayButton.disabled=true;
-
-    } else if (playerScore === 21){
-        dealerHandDOM.innerHTML = dealerHand;
-        dealerScoreDOM.innerHTML = dealerScore;
-        alert("BlackJack!! you Win!");
-        resetButton.disabled=false;
-        hitButton.disabled=true;
-        stayButton.disabled=true;
-
-    } else {
-        // 뭘 넣을까?
+        openHand();
+        setTimeout(() => alert("Burst..! You loose"),1000);
     }
-}
+};
 
 function gameResult() {
-    dealerHandDOM.innerHTML = dealerHand;
-    dealerScoreDOM.innerHTML = dealerScore;
+    openHand();
     let playerGap = 21 - playerScore; // 21에 누가 더 가까운지
     let dealerGap = 21 - dealerScore;
 
     if (playerGap < dealerGap) {
-        alert("You win!");
+        setTimeout(()=>alert("You win!"),1000);
     } else if (playerGap === dealerGap) {
-        alert("Draw")
+        setTimeout(()=>alert("Draw"),1000);
     }
     else {
-        alert("you loose");
+        setTimeout(()=>alert("you loose"),1000);
     }
     resetButton.disabled = false;
-}
+};
 
 function stay() {//count = 짝수
     count++ //count = 홀수
@@ -131,23 +130,15 @@ function stay() {//count = 짝수
         giveCard(); //count = 짝수
         count++}
         if (dealerScore === 21) {
-            dealerHandDOM.innerHTML = dealerHand;
-            dealerScoreDOM.innerHTML = dealerScore;
-            alert("Dealer Blackjack you loose..");
-            resetButton.disabled=false;
-            hitButton.disabled=true;
-            stayButton.disabled=true;
+            openHand();
+            setTimeout(()=>alert("Dealer Blackjack you loose.."),1000);
         } else if (dealerScore > 21) {
-            dealerHandDOM.innerHTML = dealerHand;
-            dealerScoreDOM.innerHTML = dealerScore;
-            alert("Dealer burst You win!");
-            resetButton.disabled=false;
-            hitButton.disabled=true;
-            stayButton.disabled=true;
+            openHand();
+            setTimeout(()=>alert("Dealer burst You win!"),1000);
         } else if (dealerScore > 16 && dealerScore < 21){
         gameResult();
     }
-}
+};
 
 function resetGame() {
     cardSet = resetCard();
@@ -155,11 +146,10 @@ function resetGame() {
     resetButton.disabled = true;
     hitButton.disabled = true;
     stayButton.disabled = true;
-}
+};
 
 //----------------------------------------------------
 
-// let cardSet = resetCard()
 
 startButton.addEventListener("click", start);
 hitButton.addEventListener("click",hit);
