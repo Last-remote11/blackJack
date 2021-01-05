@@ -101,7 +101,7 @@ function start() {
 
 function hit() {
     giveCard(); // 플레이어에게 한장
-    if (dealerScore <=16) { // Dealer hit 규칙에 의해 16이하면 무조건 hit
+    if (dealerScore <= 16) { // Dealer hit 규칙에 의해 16이하면 무조건 hit
         giveCard();
         if (dealerScore > 21) {
             openHand();
