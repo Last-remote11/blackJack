@@ -100,8 +100,16 @@ function start() {
 };
 
 function hit() {
-    giveCard();
-    count++
+    giveCard(); // 플레이어에게 한장
+    if (dealerScore <=16) { // Dealer hit 규칙에 의해 16이하면 무조건 hit
+        giveCard();
+        if (dealerScore > 21) {
+            openHand();
+            setTimeout(() => alert("Dealer Burst! You Win!"),1000)
+        };
+    } else {
+        count++; // 16이상이면 패스
+    }
     if (playerScore > 21) {
         openHand();
         setTimeout(() => alert("Burst..! You loose"),1000);
