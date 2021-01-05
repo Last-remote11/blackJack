@@ -104,6 +104,7 @@ function hit() {
     if (playerScore > 21) {
         openHand();
         setTimeout(() => alert("Burst..! You loose"),1000);
+        return;
     }
     if (dealerScore <= 16) { // Dealer hit 규칙에 의해 16이하면 무조건 hit
         giveCard();
