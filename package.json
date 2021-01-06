@@ -1,0 +1,22 @@
+{
+  "name": "blackjack",
+  "version": "1.0.0",
+  "description": "블랙잭을해보아요",
+  "main": "blackJack.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Last-remote11/blackJack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Last-remote11/blackJack/issues"
+  },
+  "homepage": "https://github.com/Last-remote11/blackJack#readme",
+  "dependencies": {
+    "lodash": "^4.17.20"
+  }
+}

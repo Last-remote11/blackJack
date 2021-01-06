@@ -8,6 +8,10 @@ let playerScoreDOM = document.getElementById("playerscore")
 let dealerScoreDOM = document.getElementById("dealerscore")
 let dealerHandDOM = document.getElementById("dealerhand")
 
+let allInButton = document.getElementById("allin")
+let currentMoneyDOM = document.getElementById("currentmoney")
+let currentMoney = 10000;
+let betMoney = document.getElementById("betmoney")
 
 const shapes = ['h','c','d','s']
 const nums = ["A",'2','3','4','5','6','7','8','9','10','J','Q','K']
@@ -26,10 +30,15 @@ function resetCard() {
     playerScore = 0
     dealerScore = 0
 
+    betMoney.disabled = false;
+    allInButton.disabled = false;
+
     playerHandDOM.innerHTML = playerHand;
     playerScoreDOM.innerHTML = playerScore;
     dealerHandDOM.innerHTML = playerHand;
     dealerScoreDOM.innerHTML = playerScore;
+    currentMoneyDOM.innerHTML = currentMoney;
+
     count = 0
     var cards = [];
     for (s of shapes) {
@@ -78,22 +87,38 @@ function giveCard() { //플레이어 먼저 주고 돌아가면서 줌
 };
 
 function start() {
+
+    if (betMoney.value <= 0 || betMoney.value > currentMoney) {
+        alert("Please input valid money.");
+        return;
+    }
+
     cardSet = resetCard();
+
+    currentMoney -= Number(betMoney.value);
+    currentMoneyDOM.innerHTML = currentMoney;
+
     for (var i=0; i < 4; i++) {
     giveCard() // 2장씩 나눠줌
     }
     if (playerScore === 21 && dealerScore === 21) {
         openHand();
         setTimeout(()=>alert("PUSH (double BlackJack)"),1000);
+        currentMoney += Number(betMoney.value);
+
     } else if (playerScore === 21) {
         openHand();
         setTimeout(()=>alert("BlackJack!! you Win!"),1000);
+        currentMoney += Number(betMoney.value) * 2.5;
+
     } else if (dealerScore === 21) {
         openHand();
         setTimeout(()=>alert("Oh no... dealer BlackJack"),1000);
     } 
     else {
         startButton.disabled = true;
+        allInButton.disabled = true;
+        betMoney.disabled = true;
         hitButton.disabled = false;
         stayButton.disabled = false;
     }
@@ -111,6 +136,8 @@ function hit() {
         if (dealerScore > 21) {
             openHand();
             setTimeout(() => alert("Dealer Burst! You Win!"),1000)
+            currentMoney += Number(betMoney.value) * 2;
+    
         };
     } else {
         count++; // 16이상이면 패스
@@ -124,8 +151,10 @@ function gameResult() {
 
     if (playerGap < dealerGap) {
         setTimeout(()=>alert("You win!"),1000);
+        currentMoney += Number(betMoney.value) * 2;
     } else if (playerGap === dealerGap) {
         setTimeout(()=>alert("Draw"),1000);
+        currentMoney += Number(betMoney.value);
     }
     else {
         setTimeout(()=>alert("you lose"),1000);
@@ -141,12 +170,17 @@ function stay() {//count = 짝수
         if (dealerScore > 21) {
             openHand();
             setTimeout(()=>alert("Dealer burst You win!"),1000);
+            currentMoney += Number(betMoney.value) * 2;
         } else if (dealerScore > 16 && dealerScore <= 21){
         gameResult();
     }
 };
 
 function resetGame() {
+    if (currentMoney === 0) {
+        alert("파산했습니다. 새 게임을 하려면 새로고침해주세요")
+    }
+
     cardSet = resetCard();
     startButton.disabled = false;
     resetButton.disabled = true;
@@ -161,3 +195,5 @@ startButton.addEventListener("click", start);
 hitButton.addEventListener("click",hit);
 stayButton.addEventListener("click", stay);
 resetButton.addEventListener("click", resetGame);
+allInButton.addEventListener("click", () =>
+betMoney.value = currentMoney)
