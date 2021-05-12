@@ -4,7 +4,9 @@
   "description": "블랙잭을해보아요",
   "main": "blackJack.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -15,8 +17,11 @@
   "bugs": {
     "url": "https://github.com/Last-remote11/blackJack/issues"
   },
-  "homepage": "https://github.com/Last-remote11/blackJack#readme",
+  "homepage": "https://last-remote11.github.io/blackjack",
   "dependencies": {
     "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "gh-pages": "^3.1.0"
   }
 }
